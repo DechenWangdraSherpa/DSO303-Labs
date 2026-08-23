@@ -1,0 +1,82 @@
+# =============================================================================
+#  aws-floci-course — pinned Floci environment
+#  Bring up with:  ./scripts/setup/floci-up.sh
+#  Pause with:     ./scripts/setup/floci-down.sh     (state is KEPT)
+#  NEVER run:      docker compose down -v            (state is DESTROYED)
+# =============================================================================
+
+name: floci-course
+
+services:
+  floci:
+    image: floci/floci:latest
+    # Named "floci" on purpose: a stray `floci start` then fails loudly with a
+    # name conflict instead of quietly shadowing this container with an empty one.
+    container_name: floci
+    restart: unless-stopped
+
+    ports:
+      # The only port Labs 1 and 2 need. All AWS API calls go here.
+      - "4566:4566"
+      # Sidecar service ports. Commented out until Lab 03, because publishing
+      # ports you are not using is the most common cause of a "port is already
+      # allocated" failure on a shared or busy machine.
+      # Uncomment the line you need; the ranges are capped in `environment:`
+      # below so each stays small.
+      # - "5100-5104:5100-5104"     # ECR registries        (Lab 03+)
+      # - "6379-6383:6379-6383"     # ElastiCache proxies   (later)
+      # - "7001-7005:7001-7005"     # RDS proxies           (later)
+      # - "9200-9209:9200-9209"     # Lambda Runtime API    (Lab 05)
+      # - "9400-9404:9400-9404"     # OpenSearch proxies    (later)
+
+    volumes:
+      # Lets Floci spawn sidecar containers (Lambda, RDS, ElastiCache, ...).
+      # Required from Lab 05 onwards; harmless now.
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Floci's own state (IAM, S3, DynamoDB, ...) as browsable files on disk.
+      # The value comes from .env, which floci-up.sh generates with an absolute
+      # path. Compose does NOT expand "~", which is why we never write one here.
+      - ${FLOCI_HOST_DATA_DIR:?run ./scripts/setup/floci-up.sh instead of docker compose directly}:/app/data
+
+    environment:
+      # --- The three settings that make persistence real -----------------
+      FLOCI_STORAGE_MODE: ${FLOCI_STORAGE_MODE:-hybrid}
+      FLOCI_STORAGE_PERSISTENT_PATH: /app/data
+      FLOCI_STORAGE_HOST_PERSISTENT_PATH: ${FLOCI_HOST_DATA_DIR}
+
+      # Never auto-delete a volume when an AWS resource is deleted. Teardown
+      # stays explicit and under your control (scripts/cleanup/).
+      FLOCI_STORAGE_PRUNE_VOLUMES_ON_DELETE: "false"
+
+      # Stable, predictable names for every child container and volume Floci
+      # creates, so `docker volume ls` is readable instead of random.
+      FLOCI_DOCKER_RESOURCE_NAMESPACE: floci-course
+
+      # Compose network, so sidecar containers can reach the emulator by name.
+      FLOCI_HOSTNAME: floci
+      FLOCI_SERVICES_DOCKER_NETWORK: floci-course_default
+
+      # --- Cap the sidecar port ranges -----------------------------------
+      # Floci's defaults are 100 ports each; ~600 published ports makes Docker
+      # Desktop very slow to start. These caps keep the commented `ports:`
+      # block above small and matching.
+      FLOCI_SERVICES_ECR_REGISTRY_BASE_PORT: "5100"
+      FLOCI_SERVICES_ECR_REGISTRY_MAX_PORT: "5104"
+      FLOCI_SERVICES_ELASTICACHE_PROXY_BASE_PORT: "6379"
+      FLOCI_SERVICES_ELASTICACHE_PROXY_MAX_PORT: "6383"
+      FLOCI_SERVICES_RDS_PROXY_BASE_PORT: "7001"
+      FLOCI_SERVICES_RDS_PROXY_MAX_PORT: "7005"
+      FLOCI_SERVICES_LAMBDA_RUNTIME_API_BASE_PORT: "9200"
+      FLOCI_SERVICES_LAMBDA_RUNTIME_API_MAX_PORT: "9209"
+      FLOCI_SERVICES_OPENSEARCH_PROXY_BASE_PORT: "9400"
+      FLOCI_SERVICES_OPENSEARCH_PROXY_MAX_PORT: "9404"
+
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:4566/_floci/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 20s
+
+# There is deliberately no top-level `volumes:` block. All state lives in the
+# host bind mount, so nothing here can be silently orphaned by Docker.
