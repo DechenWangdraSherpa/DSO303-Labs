@@ -1,0 +1,35 @@
+{
+    "CidrBlock": "",
+    "Ipv6Pool": "",
+    "Ipv6CidrBlock": "",
+    "Ipv4IpamPoolId": "",
+    "Ipv4NetmaskLength": 0,
+    "Ipv6IpamPoolId": "",
+    "Ipv6NetmaskLength": 0,
+    "Ipv6CidrBlockNetworkBorderGroup": "",
+    "VpcEncryptionControl": {
+        "Mode": "monitor",
+        "InternetGatewayExclusion": "enable",
+        "EgressOnlyInternetGatewayExclusion": "enable",
+        "NatGatewayExclusion": "enable",
+        "VirtualPrivateGatewayExclusion": "enable",
+        "VpcPeeringExclusion": "enable",
+        "LambdaExclusion": "enable",
+        "VpcLatticeExclusion": "enable",
+        "ElasticFileSystemExclusion": "enable"
+    },
+    "TagSpecifications": [
+        {
+            "ResourceType": "capacity-reservation",
+            "Tags": [
+                {
+                    "Key": "",
+                    "Value": ""
+                }
+            ]
+        }
+    ],
+    "DryRun": true,
+    "InstanceTenancy": "default",
+    "AmazonProvidedIpv6CidrBlock": true
+}

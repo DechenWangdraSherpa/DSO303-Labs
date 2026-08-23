@@ -1,0 +1,13 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowUSMSDevelopersToAssume",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::000000000000:user/usms-dev-01"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
