@@ -262,14 +262,22 @@ The following materials are included as supporting evidence for this practical.
 
 ![alt text](<../../screenshots/Lab-01/Step 19 -userIntern Created.png>)
 
+Shows the creation of the additional intern IAM user.
+
 - Intern user added to the auditors group
 
 ![alt text](<../../screenshots/Lab-01/step 20 -AddingUserIntern in auditors group.png>)
+
+Shows the additional IAM user being added to the auditors group.
 
 - Floci snapshot API error
 
 ![alt text](<../../screenshots/Lab-01/step 33.1 snapshot-Error.png>)
 
+Shows that the installed Floci version did not support the snapshot API.
+
 - Filesystem snapshot backup created successfully
 
 ![alt text](<../../screenshots/Lab-01/step 33.2 snapshot-created.png>)
+
+Shows the successful fallback backup created using the tar command.
