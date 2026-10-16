@@ -1,0 +1,38 @@
+{
+  "family": "usms-enrolment",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::000000000000:role/usms-ecs-exec-role",
+  "taskRoleArn": "arn:aws:iam::000000000000:role/usms-ecs-task-role",
+  "containerDefinitions": [
+    {
+      "name": "enrolment-api",
+      "image": "public.ecr.aws/nginx/nginx:stable-alpine",
+      "essential": true,
+      "portMappings": [
+        { "containerPort": 80, "protocol": "tcp" }
+      ],
+      "environment": [
+        { "name": "USMS_SERVICE",  "value": "enrolment" },
+        { "name": "USMS_BUCKET",   "value": "usms-student-data" },
+        { "name": "AWS_REGION",    "value": "us-east-1" }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/usms/ecs/enrolment",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "enrolment"
+        }
+      }
+    }
+  ],
+  "tags": [
+    { "key": "Name",    "value": "usms-enrolment" },
+    { "key": "Project", "value": "USMS" },
+    { "key": "Tier",    "value": "app" },
+    { "key": "Lab",     "value": "04" }
+  ]
+}
