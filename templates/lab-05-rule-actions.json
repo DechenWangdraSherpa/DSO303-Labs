@@ -1,0 +1,10 @@
+[
+  {
+    "Type": "fixed-response",
+    "FixedResponseConfig": {
+      "StatusCode": "200",
+      "ContentType": "text/plain",
+      "MessageBody": "usms-enrolment-alb ok\n"
+    }
+  }
+]

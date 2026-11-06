@@ -1,0 +1,13 @@
+[
+  {
+    "IpProtocol": "tcp",
+    "FromPort": 80,
+    "ToPort": 80,
+    "IpRanges": [
+      {
+        "CidrIp": "0.0.0.0/0",
+        "Description": "HTTP from the internet - this is an internet-facing load balancer and this rule is the reason it works"
+      }
+    ]
+  }
+]
