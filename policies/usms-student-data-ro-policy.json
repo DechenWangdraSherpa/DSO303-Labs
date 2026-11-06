@@ -1,0 +1,31 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ListTheTranscriptsBucket",
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::usms-student-data"
+    },
+    {
+      "Sid": "ReadTranscriptObjectsOnly",
+      "Effect": "Allow",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::usms-student-data/*"
+    },
+    {
+      "Sid": "NeverWriteAndNeverDelete",
+      "Effect": "Deny",
+      "Action": [
+        "s3:PutObject",
+        "s3:DeleteObject",
+        "s3:DeleteBucket",
+        "s3:PutBucketPolicy"
+      ],
+      "Resource": [
+        "arn:aws:s3:::usms-student-data",
+        "arn:aws:s3:::usms-student-data/*"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+[
+  {
+    "IpProtocol": "-1",
+    "IpRanges": [
+      { "CidrIp": "0.0.0.0/0", "Description": "The AWS default egress rule. Kept here as the undo." }
+    ]
+  }
+]

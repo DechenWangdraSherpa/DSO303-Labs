@@ -1,0 +1,24 @@
+[
+  {
+    "IpProtocol": "tcp",
+    "FromPort": 443,
+    "ToPort": 443,
+    "PrefixListIds": [
+      {
+        "PrefixListId": "pl-63a5400a",
+        "Description": "S3 via the Lab 02 gateway endpoint - transcripts, and nothing leaves the AWS network"
+      }
+    ]
+  },
+  {
+    "IpProtocol": "tcp",
+    "FromPort": 443,
+    "ToPort": 443,
+    "IpRanges": [
+      {
+        "CidrIp": "0.0.0.0/0",
+        "Description": "HTTPS out for the container image pull and the awslogs driver - narrow this to interface endpoints on real AWS"
+      }
+    ]
+  }
+]
