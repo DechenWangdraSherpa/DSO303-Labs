@@ -103,7 +103,7 @@ echo "== Files and Git hygiene =="
 check "configs/lab-03.env exists"    "test -f configs/lab-03.env"
 check "configs/lab-03.env has no empty values" \
   "! grep -qE 'export [A-Z_]+=$|=None$' configs/lab-03.env"
-check "user-data.sh exists and parses" "bash -n labs/lab-03-ec2/user-data.sh"
+check "user-data.sh exists and parses" "bash -n labs/lab-03-EC2/user-data.sh"
 check "run-instances request is valid JSON" \
   "python3 -m json.tool templates/lab-03-run-instances.json"
 check "the private key is NOT tracked by git" \
