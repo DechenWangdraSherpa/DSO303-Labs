@@ -1,0 +1,41 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: usms-portal-ingress
+  namespace: usms
+  labels:
+    project: usms
+    lab: "05b"
+  annotations:
+    # Real EKS, with the AWS Load Balancer Controller. Inert locally.
+    # Each line maps to one command you ran by hand in Lab 05.
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+    alb.ingress.kubernetes.io/healthcheck-path: /healthz
+    alb.ingress.kubernetes.io/tags: Project=USMS,Tier=web,Lab=08
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /enrolment
+            pathType: Prefix
+            backend:
+              service:
+                name: usms-enrolment
+                port:
+                  number: 80
+          - path: /results
+            pathType: Prefix
+            backend:
+              service:
+                name: usms-results
+                port:
+                  number: 80
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: usms-gateway
+                port:
+                  number: 80

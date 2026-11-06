@@ -49,6 +49,8 @@ spec:
         project: usms
         tier: app
     spec:
+      nodeSelector:
+        workload: usms
       containers:
         - name: enrolment
           image: nginx:1.27-alpine
