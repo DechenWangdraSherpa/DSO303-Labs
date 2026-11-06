@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: usms-loadgen
+  namespace: usms
+  labels:
+    app: usms-loadgen
+    project: usms
+    tier: tooling
+    lab: "05b"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: usms-loadgen
+  template:
+    metadata:
+      labels:
+        app: usms-loadgen
+        project: usms
+        tier: tooling
+    spec:
+      containers:
+        - name: loadgen
+          image: busybox:1.36
+          command:
+            - /bin/sh
+            - -c
+            - >
+              while true; do
+                wget -q -O /dev/null http://usms-gateway.usms.svc.cluster.local/enrolment/ || true;
+              done
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "16Mi"
+            limits:
+              cpu: "300m"
+              memory: "64Mi"

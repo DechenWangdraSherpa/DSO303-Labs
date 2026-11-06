@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: usms-gateway
+  namespace: usms
+  labels:
+    app: usms-gateway
+    project: usms
+    lab: "05b"
+  annotations:
+    # Real AWS only. Ignored locally, and harmless. Read them, they are the lesson.
+    service.beta.kubernetes.io/aws-load-balancer-type: "external"
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "ip"
+    service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
+spec:
+  type: LoadBalancer
+  selector:
+    app: usms-gateway
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

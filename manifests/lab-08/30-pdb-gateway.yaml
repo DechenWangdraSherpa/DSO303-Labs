@@ -1,0 +1,29 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: usms-gateway-pdb
+  namespace: usms
+  labels:
+    app: usms-gateway
+    project: usms
+    lab: "05b"
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: usms-gateway
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: usms-enrolment-pdb
+  namespace: usms
+  labels:
+    app: usms-enrolment
+    project: usms
+    lab: "05b"
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: usms-enrolment
