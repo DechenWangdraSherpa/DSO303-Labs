@@ -1,0 +1,13 @@
+[
+  {
+    "IpProtocol": "tcp",
+    "FromPort": 22,
+    "ToPort": 22,
+    "UserIdGroupPairs": [
+      {
+        "GroupId": "sg-a2b2c9e9f29481762",
+        "Description": "SSH from the USMS jump host tier only - replaces the 10.0.0.0/16 rule from Lab 02 Step 14"
+      }
+    ]
+  }
+]
