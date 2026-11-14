@@ -43,4 +43,4 @@ The users may disappear because `--persist` only mounts a directory and does not
 
 ## 7. Configuration as evidence
 
-A committed `docker-compose.yml` file provides a record of how the environment was configured. An instructor or colleague can check the repository to verify settings such as volumes, environment variables, and container configuration. A command typed once in the terminal is harder to verify or reproduce later.
+A committed `docker-compose.yml` file provides a record of how the environment was configured. An instructor or colleague can check the repository to verify settings such as volumes, environment variables, and container configuration. A command typed once in the terminal is harder to verify or reproduce later on.
